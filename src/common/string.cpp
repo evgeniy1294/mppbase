@@ -1,4 +1,5 @@
 #include "mpp/macro_utils.h"
+#include "mpp/macro_assert.h"
 #include "string.hpp"
 
 #include <string>
@@ -87,7 +88,7 @@ StringWriter &StringWriter::AppendVarArgs(const char *aFormat, va_list aArgs)
   int len;
 
   len = vsnprintf(mBuffer + mLength, (mSize > mLength ? (mSize - mLength) : 0), aFormat, aArgs);
-  // TODO: Add ASSERT(len >= 0);
+  MPP_ASSERT(len >= 0);
 
   mLength += static_cast<uint16_t>(len);
 

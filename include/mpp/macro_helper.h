@@ -8,7 +8,7 @@
 
 
 /**
-  * @addtogroup base-macros-helpers
+  * @addtogroup core-macros-helpers
   *
   * @brief
   *   This module defines macros for parsing variadic arguments. 

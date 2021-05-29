@@ -16,14 +16,14 @@ namespace mpp {
  * @note Usage example: 
  *       class CantCopy : private NonCopyable <CantCopy> {};
  */
-template < typename Type > class NonCopyble {
+template < typename Type > class NonCopyable {
   public:
     NonCopyble(const NonCopyble &) = delete;
     Type& operatior=( const Type& ) = delete;
       
   protected:
     NonCopyble() = default;
-    ~NonCopyble() = default;
+   ~NonCopyble() = default;
 };
   
 

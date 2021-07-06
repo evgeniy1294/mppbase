@@ -1,4 +1,5 @@
 #pragma once
+#include <cstring>
 
 
 /**
@@ -18,12 +19,12 @@ namespace mpp {
  */
 template < typename Type > class NonCopyable {
   public:
-    NonCopyble(const NonCopyble &) = delete;
-    Type& operatior=( const Type& ) = delete;
+    NonCopyable(const NonCopyable &) = delete;
+    Type& operator=( const Type& )   = delete;
       
   protected:
-    NonCopyble() = default;
-   ~NonCopyble() = default;
+    NonCopyable() = default;
+   ~NonCopyable() = default;
 };
   
 
@@ -34,7 +35,7 @@ template < typename Type > class NonCopyable {
  * @note Usage example: 
  *       class CanClear : public Clearable <CanClear> {};
  */
-tempate < typename Type > class Clearable
+template < typename Type > class Clearable
 {
   public:  
     void Clear() { memset(reinterpret_cast<void *>(this), 0, sizeof(Type)); }
@@ -65,7 +66,7 @@ public:
     * @retval FALSE  If the two `Type` instances are equal.
     *
     */
-  bool oprator!=(const Type &aOther) const { return !(*static_cast<const Type *>(this) == aOther); }
+  bool operator!=( const Type &aOther ) const { return !(*static_cast<const Type *>(this) == aOther); }
 };
 
 
@@ -82,7 +83,7 @@ public:
  * @note Usage example: 
  *       class CanEquatable : public Equatable <CanEquatable> {};
  */
-template <typename T> class Equatable : public Unequatable<Type>
+template <typename Type> class Equatable : public Unequatable<Type>
 {
 public:
     /**

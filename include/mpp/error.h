@@ -41,7 +41,7 @@ typedef enum mppError
   MPP_ERROR_INVALID_COMMAND,       ///< Input (CLI) command is invalid.
   MPP_NUM_ERRORS,                  ///< The number of defined errors.
   MPP_ERROR_GENERIC = 255,         ///< Generic error (should not use).
-} mbError;
+} mppError;
 
 
 

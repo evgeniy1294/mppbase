@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include "mixin.hpp"
 #include "linked_list.hpp"
 
@@ -12,7 +13,7 @@ class Timer;
     
 
 
-class TimerScheduler: public NonCopyable
+class TimerScheduler: public NonCopyable< TimerScheduler >
 {
   friend class Timer;
   

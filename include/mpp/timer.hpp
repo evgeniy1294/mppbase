@@ -18,7 +18,7 @@ class TimerScheduler: public NonCopyable< TimerScheduler >
   friend class Timer;
   
 public:
-  typedef Time (&TimeBase)();    
+  typedef Time (TimeBase)();    
   
   
   TimerScheduler( TimeBase aTimeBase )
@@ -30,7 +30,7 @@ public:
    * This method allow change TimeBase.
    *
    */
-  void SetTimeBase( TimeBase aTimeBase );
+  void SetTimeBase( TimeBase aTimeBase ) { mTimeBase = aTimeBase; }
 
   /**
    * This method processes the running timers.
@@ -46,7 +46,7 @@ private:
    * @param[in]  aTimer     A reference to the timer instance.
    *
    */
-  void Add(Timer& aTimer);
+  void Add( Timer& aTimer );
   
   
   /**
@@ -55,12 +55,12 @@ private:
    * @param[in]  aTimer     A reference to the timer instance.
    *
    */
-  void Remove(Timer& aTimer);  
+  void Remove( Timer& aTimer );  
     
   
 private:
   LinkedList<Timer> mTimerList;
-  TimeBase mTimeBase;
+  TimeBase* mTimeBase;
 };
 
 
@@ -73,8 +73,8 @@ private:
 
 
 
-
-class Timer : public InstanceLocator, public LinkedListEntry<Timer>
+// Add Timer type { OneShot or Periodic }
+class Timer: public LinkedListEntry<Timer>
 {
   friend class TimerScheduler;
   friend class LinkedListEntry<Timer>;
@@ -95,8 +95,8 @@ public:
    * @param[in]  aHandler         A pointer to a function that is called when the timer expires.
    *
    */
-  Timer(TimerScheduler &aTimeScheduler, Handler aHandler)
-        : mTimeScheduler(aTimeScheduler)
+  Timer(TimerScheduler &aTimeScheduler, Handler aHandler, bool )
+        : mTimerScheduler(&aTimeScheduler)
         , mHandler(aHandler)
         , mInterval()
         , mStartTime()
@@ -174,7 +174,7 @@ public:
    * @returns The current time in tick.
    *
    */
-  Time GetNow() { return mTimeScheduler->mTimeBase(); }
+  Time GetNow() { return mTimerScheduler->mTimeBase(); }
     
     
 
@@ -193,7 +193,7 @@ protected:
 
   void TimeOut() { mHandler(*this); }
 
-  TimeScheduler *mTimeScheduler;
+  TimerScheduler *mTimerScheduler;
   Time mInterval;
   Time mStartTime;
   Handler  mHandler;

@@ -14,7 +14,7 @@
  *
  */
 #if !defined(MPP_CONFIG_FILE)
-  #define MPP_CONFIG_FILE <mpp_config_generic.h>
+  #define MPP_CONFIG_FILE "mpp_config_generic.h"
 #endif
 
 #include MPP_CONFIG_FILE

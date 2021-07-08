@@ -53,7 +53,7 @@ typedef enum mppError
  * @returns  A string representation of an mppError.
  *
  */
-const char *mppErrorToString(mbError aError);
+const char *mppErrorToString(mppError aError);
 
 
 /**

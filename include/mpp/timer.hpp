@@ -18,25 +18,27 @@ class TimerScheduler: public NonCopyable< TimerScheduler >
   friend class Timer;
   
 public:
-  typedef Time (TimeBase)();    
+  typedef Time (TimeSource)();    
   
   
-  TimerScheduler( TimeBase aTimeBase )
-       : mTimeBase(aTimeBase)
+  TimerScheduler( TimeSource aTimeSource )
+       : mTimeSource(aTimeSource)
   {    
   }
   
   /**
-   * This method allow change TimeBase.
+   * This method allow change TimeSource.
    *
    */
-  void SetTimeBase( TimeBase aTimeBase ) { mTimeBase = aTimeBase; }
+  void SetTimeSource( TimeBase aTimeSource ) { mTimeSource = aTimeSource; }
 
   /**
    * This method processes the running timers.
    *
    */
   void ProcessTimers();
+  
+  Time Now() { return mTimeSource(); }
   
 private:
     
@@ -60,7 +62,7 @@ private:
   
 private:
   LinkedList<Timer> mTimerList;
-  TimeBase* mTimeBase;
+  TimeSource* mTimeSource;
 };
 
 
@@ -86,7 +88,7 @@ public:
    * @param[in]  aTimer    A reference to the expired timer instance.
    *
    */
-  typedef void (&Handler)(Timer &aTimer);    
+  typedef void (&Callback)(Timer &aTimer);    
   
   /**
    * This constructor creates a timer instance.
@@ -95,39 +97,32 @@ public:
    * @param[in]  aHandler         A pointer to a function that is called when the timer expires.
    *
    */
-  Timer(TimerScheduler &aTimeScheduler, Handler aHandler, bool )
+  Timer(TimerScheduler &aTimeScheduler, Callback aCallback )
         : mTimerScheduler(&aTimeScheduler)
         , mHandler(aHandler)
         , mInterval()
         , mStartTime()
         , mNext(this)
-    {
-    }
+        , mRepeat(false)
+  {
+  }
     
   
   /**
    * This method schedules the timer to fire after a given delay (in tick) from now.
-   * @param[in]  aTick The delay in tick
-   *
+   * @param[in]  aInterval The delay in tick
+   * @param[in]  aRepeat   Use autoreload (true) or not (false)
    */
-  void Start( Time aDelay );
+  void Start( Time aInterval, bool aRepeat = false );
   
   
-  /**
-   * This method schedules the timer to fire after a given delay (in tick) from a given start time.
-   *
-   * @param[in]  aStartTime  The start time.
-   * @param[in]  aDelay      The delay in milliseconds. It must not be longer than `kMaxDelay`.
-   *
-   */
-  void StartAt(Time aStartTime, uint32_t aDelay);
     
     
   /**
    * This method reload the timer with setted interval. If interval equal 0, 
    * the timer will not be reloaded.
    */
-  void Reload();
+  void Start();
   
   
   /**
@@ -139,12 +134,12 @@ public:
   
   
   /**
-   * This method returns the elapsed time of the timer.
+   * This method returns the remain time of the timer.
    *
-   * @returns The elapsed time.
+   * @returns The remain time.
    *
    */
-  Time GetElapsedTime();
+  Time GetRemainTime();
   
   
   
@@ -174,7 +169,7 @@ public:
    * @returns The current time in tick.
    *
    */
-  Time GetNow() { return mTimerScheduler->mTimeBase(); }
+  Time GetNow() { return mTimerScheduler->Now(); }
     
     
 
@@ -189,15 +184,16 @@ protected:
    * @retval FALSE If the fire time of this timer object is the same or after aTimer's fire time.
    *
    */
-  bool DoesFireBefore(const Timer &aSecondTimer, Time aNow) const;
+  bool DoesAlarmBefore(const Timer &aSecondTimer, Time aNow) const;
 
-  void TimeOut() { mHandler(*this); }
+  void Alarm() { mCallback(*this); }
 
   TimerScheduler *mTimerScheduler;
   Time mInterval;
   Time mStartTime;
-  Handler  mHandler;
-  Timer   *mNext;
+  Callback mCallback;
+  Timer *mNext;
+  bool mRepeat;
 };
 
   

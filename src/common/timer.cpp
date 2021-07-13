@@ -3,23 +3,28 @@
 
 using namespace mpp;
 
+
 void TimerScheduler::ProcessTimers(  )
 {
   Timer *timer = mTimerList.GetHead();
 
   if (timer)
   {
-    Time now( mTimeBase() );
+    Time now( mTimeSource() );
 
-    if (now >= timer->mFireTime)
+    if (now - timer->mStartTime) >= timer->mInterval) 
     {
-      Remove(*timer, aAlarmApi);
-      timer->Handler();
-      ExitNow();
+      Remove( *timer );
+      timer->Alarm();
+
+      if ( timer->mRepeat )
+      {
+        timer->mStartTime = now;
+        Add( Timer& aTimer )
+      }
     }
   }
 
-exit:
   return;
 }
 
@@ -29,13 +34,13 @@ exit:
 void Add( Timer& aTimer )
 {
   Timer *prev = nullptr;
-  Time now( mTimeBase() );
+  Time now( mTimeSource() );
 
-  Remove(aTimer, aAlarmApi);
+  Remove( aTimer );
 
-  for ( Timer *cur = mTimerList.GetHead();  cur;  prev = cur, cur = cur->GetNext() )
+  for ( Timer* cur = mTimerList.GetHead();  cur;  prev = cur, cur = cur->GetNext() )
   {
-    if (aTimer.DoesFireBefore(*cur, now))
+    if (aTimer.DoesAlarmBefore(*cur, now))
     {
       break;
     }
@@ -71,6 +76,53 @@ void TimerScheduler::Remove( Timer& aTimer )
 
 exit:
   return;
+}
+
+
+
+
+void Timer::Start( Time aInterval, bool aRepeat = false )
+{
+  mStartTime = mTimerScheduler->Now();
+  mInterval  = aInterval;
+  mRepeat    = aRepeat;
+  
+  mTimerScheduler->Add( *this );
+}
+
+
+
+void Timer::Start()
+{
+  mfVerifyOrExit( mInterval != 0 );
+  Start( mInterval );
+  
+exit:
+  return;
+}
+
+
+
+void Timer::Stop()
+{
+  mTimerScheduler->Remove( *this );
+}
+
+
+
+Time Timer::GetRemainTime()
+{
+  Time now( mTimerScheduler->Now() );
+  Time remain = (mStartTime + mInterval) - now;
+  
+  return ( remain > mInterval ) ? 0 : remain;
+}
+
+
+
+bool Timer::DoesAlarmBefore( const Timer &aSecondTimer ) const
+{
+  return this->GetRemainTime() < aSecondTimer.GetRemainTime();
 }
 
 

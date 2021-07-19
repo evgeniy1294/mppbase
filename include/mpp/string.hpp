@@ -211,7 +211,6 @@ class StringWriter
 
 
 
-// TODO: Переписать функции IsValidUtf8String
 /**
  * This function validates whether a given byte sequence (string) follows UTF-8 encoding.
  *

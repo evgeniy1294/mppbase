@@ -62,5 +62,13 @@
 
 
 
-
+/**
+ * @def MPP_CONFIG_LOG_PREPEND_LEVEL
+ *
+ * Define as 1 to use log level prefix string definitions.
+ *
+ */
+#ifndef MPP_CONFIG_LOG_PREPEND_LEVEL
+  #define MPP_CONFIG_LOG_PREPEND_LEVEL    1
+#endif
 

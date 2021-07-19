@@ -92,7 +92,7 @@ extern "C" {
  * #if/#else/#endif.
  *
  */
-#define OT_LOG_LEVEL_DEBG 5
+#define MPP_LOG_LEVEL_DEBG 5
 
 
 
@@ -123,7 +123,7 @@ typedef int mppLogRegion
  * @param[in]  ...         Arguments for the format specification.
  *
  */
-void mppPlatLog(otLogLevel aLogLevel, otLogRegion aLogRegion, const char *aFormat, ...);
+void mppPlatLog(mppLogLevel aLogLevel, mppLogRegion aLogRegion, const char *aFormat, ...);
 
 
 
@@ -145,7 +145,7 @@ void mppPlatLog(otLogLevel aLogLevel, otLogRegion aLogRegion, const char *aForma
  * @param[in]  aLogLine    A pointer to a log line string.
  *
  */
-void mppPlatLogLine(otLogLevel aLogLevel, otLogRegion aLogRegion, const char *aLogLine);
+void mppPlatLogLine(mppLogLevel aLogLevel, mppLogRegion aLogRegion, const char *aLogLine);
 
 
 

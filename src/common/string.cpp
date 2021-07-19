@@ -144,7 +144,7 @@ bool IsValidUtf8String(const char *aString, size_t aLength)
         if ((byte & 0x40) == 0) // 10xx-xxxx
         {
             // We got a continuation byte pattern without seeing a leading byte earlier.
-            ExitNow(ret = false);
+            mfExitNow(ret = false);
         }
         else if ((byte & 0x20) == 0) // 110x-xxxx
         {
@@ -160,12 +160,12 @@ bool IsValidUtf8String(const char *aString, size_t aLength)
         }
         else // 1111-1xxx  (invalid pattern).
         {
-            ExitNow(ret = false);
+            mfExitNow(ret = false);
         }
 
         while (continuationBytes-- != 0)
         {
-            VerifyOrExit(position < aLength, ret = false);
+            mfVerifyOrExit(position < aLength, ret = false);
 
             byte = *reinterpret_cast<const uint8_t *>(aString + position);
             ++position;

@@ -72,3 +72,14 @@
   #define MPP_CONFIG_LOG_PREPEND_LEVEL    1
 #endif
 
+
+/**
+ * @def MPP_CONFIG_LOG_PREPEND_LEVEL
+ *
+ * Define log string max length.
+ *
+ */
+#ifndef MPP_CONFIG_LOG_MAX_SIZE
+  #define MPP_CONFIG_LOG_MAX_SIZE 30
+#endif
+

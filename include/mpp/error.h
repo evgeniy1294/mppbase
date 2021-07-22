@@ -57,6 +57,22 @@ const char *mppErrorToString(mppError aError);
 
 
 /**
+ * This function ignores an error explicitly.
+ *
+ * This is primarily used to indicate the intention of developer that
+ * the error can be safely ignored or there is guaranteed to be no error.
+ *
+ * @note: Taked from OpenThread project
+ * 
+ * @param[in]  aError  The error to be ignored.
+ *
+ */
+static inline void IgnoreError(mppError aError)
+{
+  MPP_UNUSED_VARIABLE(aError);
+}
+
+/**
  * @}
  *
  */

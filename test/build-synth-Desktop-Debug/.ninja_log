@@ -1,0 +1,13 @@
+# ninja log v5
+0	464	1626951767497806700	CMakeFiles/synth.dir/main.cpp.o	38f36c7e660f7e
+1	63	1626953994327360200	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/error.cpp.o	dacb70cfb33a3191
+1	64	1626956231387047700	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/error.cpp.o	dacb70cfb33a3191
+1	79	1626956386337838000	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/logging.cpp.o	9a63efa33ae8492e
+1	62	1626962647471239400	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/error.cpp.o	dacb70cfb33a3191
+1	85	1626962647495003400	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/string.cpp.o	f178a6469d29f7e2
+1	42	1626966781458117800	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/error.cpp.o	dacb70cfb33a3191
+1	49	1626966896817037200	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/error.cpp.o	dacb70cfb33a3191
+2	94	1626966896861091700	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/string.cpp.o	f178a6469d29f7e2
+1	94	1626966896861139500	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/logging.cpp.o	9a63efa33ae8492e
+2	95	1626966896861972300	CMakeFiles/synth.dir/home/evgen/Workspace/Common/mpp/mppbase/src/common/timer.cpp.o	1569a3cb0703a404
+95	174	1626966896937760000	synth	57fdf5bea146568f

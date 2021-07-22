@@ -143,7 +143,7 @@
 #define mfVerifyOrExit(...)                 \
   do                                        \
   {                                         \
-    if (!(MACRO_FIRST_ARG(__VA_ARGS__)))    \
+    if (!(MPP_FIRST_ARG(__VA_ARGS__)))    \
     {                                       \
       MPP_SECOND_ARG(__VA_ARGS__);          \
       goto exit;                            \

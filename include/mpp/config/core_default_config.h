@@ -83,3 +83,14 @@
   #define MPP_CONFIG_LOG_MAX_SIZE 30
 #endif
 
+
+
+/**
+ * @def MPP_CONFIG_LOG_LEVEL
+ *
+ * Define log level.
+ *
+ */
+#ifndef MPP_CONFIG_LOG_LEVEL
+  #define MPP_CONFIG_LOG_LEVEL (5u)
+#endif

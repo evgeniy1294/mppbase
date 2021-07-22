@@ -1,5 +1,6 @@
-#include "mpp/timer.hpp"
-#include "mpp/platform/toolchain.h"
+#include <mpp/macro_utils.h>
+#include <mpp/platform/toolchain.h>
+#include <mpp/timer.hpp>
 
 using namespace mpp;
 
@@ -12,7 +13,7 @@ void TimerScheduler::ProcessTimers(  )
   {
     Time now( mTimeSource() );
 
-    if (now - timer->mStartTime) >= timer->mInterval) 
+    if ( ( now - timer->mStartTime ) >= timer->mInterval)
     {
       Remove( *timer );
       timer->Alarm();
@@ -20,7 +21,7 @@ void TimerScheduler::ProcessTimers(  )
       if ( timer->mRepeat )
       {
         timer->mStartTime = now;
-        Add( Timer& aTimer )
+        Add( *timer );
       }
     }
   }
@@ -31,7 +32,7 @@ void TimerScheduler::ProcessTimers(  )
 
 
 
-void Add( Timer& aTimer )
+void TimerScheduler::Add( Timer& aTimer )
 {
   Timer *prev = nullptr;
   Time now( mTimeSource() );
@@ -40,7 +41,7 @@ void Add( Timer& aTimer )
 
   for ( Timer* cur = mTimerList.GetHead();  cur;  prev = cur, cur = cur->GetNext() )
   {
-    if (aTimer.DoesAlarmBefore(*cur, now))
+    if (aTimer.DoesAlarmBefore(*cur))
     {
       break;
     }
@@ -69,7 +70,7 @@ void TimerScheduler::Remove( Timer& aTimer )
   }
   else
   {
-    mfIgnoreError(mTimerList.Remove(aTimer));
+    IgnoreError(mTimerList.Remove(aTimer));
   }
 
   aTimer.SetNext(&aTimer);
@@ -81,7 +82,7 @@ exit:
 
 
 
-void Timer::Start( Time aInterval, bool aRepeat = false )
+void Timer::Start( Time aInterval, bool aRepeat )
 {
   mStartTime = mTimerScheduler->Now();
   mInterval  = aInterval;
@@ -120,7 +121,7 @@ Time Timer::GetRemainTime()
 
 
 
-bool Timer::DoesAlarmBefore( const Timer &aSecondTimer ) const
+bool Timer::DoesAlarmBefore( Timer &aSecondTimer )
 {
   return this->GetRemainTime() < aSecondTimer.GetRemainTime();
 }

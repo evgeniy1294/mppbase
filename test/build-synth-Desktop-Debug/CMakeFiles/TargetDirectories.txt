@@ -1,0 +1,3 @@
+/home/evgen/Workspace/Common/mpp/mppbase/test/build-synth-Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/evgen/Workspace/Common/mpp/mppbase/test/build-synth-Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/evgen/Workspace/Common/mpp/mppbase/test/build-synth-Desktop-Debug/CMakeFiles/synth.dir

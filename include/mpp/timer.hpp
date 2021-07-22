@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdint>
-#include "mixin.hpp"
-#include "linked_list.hpp"
+#include <mpp/mixin.hpp>
+#include <mpp/linked_list.hpp>
 
 
 namespace mpp {
@@ -30,7 +30,7 @@ public:
    * This method allow change TimeSource.
    *
    */
-  void SetTimeSource( TimeBase aTimeSource ) { mTimeSource = aTimeSource; }
+  void SetTimeSource( TimeSource aTimeSource ) { mTimeSource = aTimeSource; }
 
   /**
    * This method processes the running timers.
@@ -88,7 +88,7 @@ public:
    * @param[in]  aTimer    A reference to the expired timer instance.
    *
    */
-  typedef void (&Callback)(Timer &aTimer);    
+  typedef void (Callback)(Timer &aTimer);
   
   /**
    * This constructor creates a timer instance.
@@ -99,7 +99,7 @@ public:
    */
   Timer(TimerScheduler &aTimeScheduler, Callback aCallback )
         : mTimerScheduler(&aTimeScheduler)
-        , mHandler(aHandler)
+        , mCallback(aCallback)
         , mInterval()
         , mStartTime()
         , mNext(this)
@@ -184,14 +184,14 @@ protected:
    * @retval FALSE If the fire time of this timer object is the same or after aTimer's fire time.
    *
    */
-  bool DoesAlarmBefore(const Timer &aSecondTimer, Time aNow) const;
+  bool DoesAlarmBefore( Timer &aSecondTimer ) /* const */;
 
   void Alarm() { mCallback(*this); }
 
   TimerScheduler *mTimerScheduler;
   Time mInterval;
   Time mStartTime;
-  Callback mCallback;
+  Callback* mCallback;
   Timer *mNext;
   bool mRepeat;
 };

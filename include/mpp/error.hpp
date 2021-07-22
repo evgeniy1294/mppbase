@@ -9,37 +9,32 @@
 
 
 #include <cstdint>
-#include "config/core_config.h"
-
+#include <mpp/config/core_config.h>
+#include <mpp/platform/toolchain.h>
+#include <mpp/error.h>
 
 namespace mpp {
  
-/*
- * This enumeration represents error codes used throughout mpp.
- *
- */
-enum class Error {
-  None,
-  Failed,
-  NoBufs,
-  Drop,
-  Busy,
-  Parse,
-  InvalidArgs,
-  Abort,
-  NotImplemented,
-  InvalidState,
-  NotFound,
-  Already,
-  NotCapable,
-  ResponseTimeout,
-  DisabledFeature,
-  InvalidCommand,
-  Generic,
+typedef mppError Error;
 
-  NumErrors
-};
-
+constexpr Error kErrorNone            = MPP_ERROR_NONE;
+constexpr Error kErrorFailed          = MPP_ERROR_FAILED;
+constexpr Error kErrorNoBufs          = MPP_ERROR_NO_BUFS;
+constexpr Error kErrorDrop            = MPP_ERROR_DROP;
+constexpr Error kErrorBusy            = MPP_ERROR_BUSY;
+constexpr Error kErrorParse           = MPP_ERROR_PARSE;
+constexpr Error kErrorInvalidArgs     = MPP_ERROR_INVALID_ARGS;
+constexpr Error kErrorAbort           = MPP_ERROR_ABORT;
+constexpr Error kErrorNotImplemented  = MPP_ERROR_NOT_IMPLEMENTED;
+constexpr Error kErrorInvalidState    = MPP_ERROR_INVALID_STATE;
+constexpr Error kErrorNotFound        = MPP_ERROR_NOT_FOUND;
+constexpr Error kErrorAlready         = MPP_ERROR_ALREADY;
+constexpr Error kErrorNotCapable      = MPP_ERROR_NOT_CAPABLE;
+constexpr Error kErrorResponseTimeout = MPP_ERROR_RESPONSE_TIMEOUT;
+constexpr Error kErrorDisabledFeature = MPP_ERROR_DISABLED_FEATURE;
+constexpr Error kErrorInvalidCommand  = MPP_ERROR_INVALID_COMMAND;
+constexpr Error kErrorGeneric         = MPP_ERROR_GENERIC;
+constexpr Error kNumErrors            = MPP_NUM_ERRORS;
 
 /**
  * This function converts an `Error` into a string.
@@ -52,21 +47,6 @@ enum class Error {
 const char *ErrorToString(Error aError);
 
 
-/**
- * This function ignores an error explicitly.
- *
- * This is primarily used to indicate the intention of developer that
- * the error can be safely ignored or there is guaranteed to be no error.
- *
- * @note: Taked from OpenThread project
- * 
- * @param[in]  aError  The error to be ignored.
- *
- */
-static inline void IgnoreError(otError aError)
-{
-    OT_UNUSED_VARIABLE(aError);
-}
 
 
 } // namespace mpp

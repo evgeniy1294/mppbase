@@ -3,8 +3,8 @@
  *   This file implements the error code functions used by OpenThread core modules.
  */
 
-#include "error.hpp"
-#include "mpp/macro_utils.hpp"
+#include <mpp/error.hpp>
+#include <mpp/macro_utils.h>
 
 
 namespace mpp {

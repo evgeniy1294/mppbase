@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "mpp/config/core_config.h"
+#include <mpp/config/core_config.h>
 
 #include <ctype.h>
 #include <stdio.h>

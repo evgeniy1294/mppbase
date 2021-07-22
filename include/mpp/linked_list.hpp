@@ -1,5 +1,5 @@
 #pragma once
-#include "error.hpp"
+#include <mpp/error.hpp>
 
 namespace mpp {
 
@@ -230,7 +230,7 @@ public:
     {
         const Type *prev;
 
-        return Find(aEntry, prev) == Error::None;
+        return Find(aEntry, prev) == kErrorNone;
     }
 
 
@@ -267,11 +267,11 @@ public:
      */
     Error Add(Type &aEntry)
     {
-        Error error = Error::None;
+        Error error = kErrorNone;
 
         if (Contains(aEntry))
         {
-            error = Error::Already;
+            error = kErrorAlready;
         }
         else
         {
@@ -300,7 +300,7 @@ public:
         Type *prev;
         Error error = Find(aEntry, prev);
 
-        if (error == Error::None)
+        if (error == kErrorNone)
         {
             PopAfter(prev);
         }
@@ -353,7 +353,7 @@ public:
      */
     Error Find(const Type &aEntry, const Type *&aPrevEntry) const
     {
-        Error error = Error::NotFound;
+        Error error = kErrorNotFound;
 
         aPrevEntry = nullptr;
 
@@ -361,7 +361,7 @@ public:
         {
             if (entry == &aEntry)
             {
-                error = Error::None;
+                error = kErrorNone;
                 break;
             }
         }

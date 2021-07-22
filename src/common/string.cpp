@@ -1,8 +1,8 @@
-#include "mpp/macro_utils.h"
-#include "mpp/macro_assert.h"
-#include "string.hpp"
+#include <mpp/macro_utils.h>
+#include <mpp/macro_assert.h>
+#include <mpp/string.hpp>
 
-#include <string>
+#include <cstring>
 
 
 /**

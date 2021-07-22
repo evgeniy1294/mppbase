@@ -7,6 +7,21 @@
 #include <mpp/macro_utils.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+const char* mppErrorToString( mppError aError )
+{
+  return mpp::ErrorToString( aError );
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
 namespace mpp {
   
   

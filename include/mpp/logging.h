@@ -9,20 +9,17 @@
 #include <mpp/platform/logging.h>
 #include <mpp/error.h>
 
-namespace mpp {
 
-/**
- * This type represents the log level.
- */
-enum class LogLevel: int
-{ 
-  None, Crit, Warn, Note, Info, Debg 
-};
+#define MPP_LOG_LEVEL_NONE           0
+#define MPP_LOG_LEVEL_CRIT           1
+#define MPP_LOG_LEVEL_WARN           2
+#define MPP_LOG_LEVEL_NOTE           3
+#define MPP_LOG_LEVEL_INFO           4
+#define MPP_LOG_LEVEL_DEBG           5
 
-
-LogLevel LogGetLevel();
-mppError    LogSetLevel( LogLevel aLogLevel );
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @def LogCrit
@@ -36,7 +33,7 @@ mppError    LogSetLevel( LogLevel aLogLevel );
 #if MPP_CONFIG_LOG_LEVEL < MPP_LOG_LEVEL_CRIT
   #define LogCrit(aRegion, aRegionPrefix, ...)
 #else
-  void LogCrit( const char *aRegion, const char *aFormat, ... );
+  void mppLogCrit( const char *aRegion, const char *aFormat, ... );
 #endif
 
 
@@ -52,7 +49,7 @@ mppError    LogSetLevel( LogLevel aLogLevel );
 #if MPP_CONFIG_LOG_LEVEL < MPP_LOG_LEVEL_WARN
   #define LogWarn(aRegion, aRegionPrefix, ...)
 #else
-  void LogWarn( const char *aRegion, const char *aFormat, ... );
+  void mppLogWarn( const char *aRegion, const char *aFormat, ... );
 #endif
 
 
@@ -68,7 +65,7 @@ mppError    LogSetLevel( LogLevel aLogLevel );
 #if MPP_CONFIG_LOG_LEVEL < MPP_LOG_LEVEL_NOTE
   #define LogNote(aRegion, aRegionPrefix, ...)
 #else
-  void LogNote( const char *aRegion, const char *aFormat, ... );
+  void mppLogNote( const char *aRegion, const char *aFormat, ... );
 #endif
 
 
@@ -84,7 +81,7 @@ mppError    LogSetLevel( LogLevel aLogLevel );
 #if MPP_CONFIG_LOG_LEVEL < MPP_LOG_LEVEL_INFO
   #define LogInfo(aRegion, aRegionPrefix, ...)
 #else
-  void LogInfo( const char *aRegion, const char *aFormat, ... );
+  void mppLogInfo( const char *aRegion, const char *aFormat, ... );
 #endif
 
 
@@ -97,12 +94,19 @@ mppError    LogSetLevel( LogLevel aLogLevel );
  * @param[in]  ...       Arguments for the format specification.
  *
  */
-#if OPENTHREAD_CONFIG_LOG_LEVEL < OT_LOG_LEVEL_DEBG
-  #define otLogDebg(aRegion, aRegionPrefix, ...)
+#if MPP_CONFIG_LOG_LEVEL < MPP_LOG_LEVEL_DEBG
+  #define LogDebg(aRegion, aRegionPrefix, ...)
 #else
-  void LogDebg( const char *aRegion, const char *aFormat, ... );
+  void mppLogDebg( const char *aRegion, const char *aFormat, ... );
 #endif
 
 
 
-} // namespace mpp
+
+
+mppLogLevel mppLogGetLevel();
+mppError    mppLogSetLevel( mppLogLevel aLogLevel );
+
+#ifdef __cplusplus
+}
+#endif

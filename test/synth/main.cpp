@@ -1,9 +1,12 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <mpp/logging.h>
+
+static const char* sPrefix = "[MAIN]";
 
 int main()
 {
-  std::cout << "Test!!!" << std::endl;
+  mppLogCrit( sPrefix, "%s", "LOG!!!");
   return 0; 
 }

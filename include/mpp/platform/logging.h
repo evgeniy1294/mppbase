@@ -28,7 +28,8 @@ extern "C" {
  *
  */
 
-  
+typedef int mppLogLevel;
+
 /**
  * This function outputs logs.
  *
@@ -36,8 +37,7 @@ extern "C" {
  * @param[in]  aFormat     A pointer to the string.
  *
  */
-void mppPlatLog( const char *aLogLine );
-
+void mppPlatLog( mppLogLevel aLogLevel, const char *aLogLine );
 
   
 /**

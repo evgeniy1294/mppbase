@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mpp/platform/toolchain.h>
 
 #ifdef __cplusplus
 extern "C" {

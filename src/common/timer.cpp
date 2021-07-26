@@ -4,7 +4,6 @@
 
 using namespace mpp;
 
-
 void TimerScheduler::ProcessTimers(  )
 {
   Timer *timer = mTimerList.GetHead();

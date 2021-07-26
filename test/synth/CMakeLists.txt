@@ -13,6 +13,7 @@ set(SOURCE_LIST
      ${CMAKE_CURRENT_LIST_DIR}/../../src/common/string.cpp
      ${CMAKE_CURRENT_LIST_DIR}/../../src/common/timer.cpp
      ${CMAKE_CURRENT_LIST_DIR}/../../platform/synth/logging.cpp
+     ${CMAKE_CURRENT_LIST_DIR}/../../platform/synth/time.cpp
    )
 
 add_executable(${TARGET} main.cpp)

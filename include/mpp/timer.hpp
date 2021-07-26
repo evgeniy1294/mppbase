@@ -103,7 +103,6 @@ public:
         , mInterval()
         , mStartTime()
         , mNext(this)
-        , mRepeat(false)
   {
   }
     
@@ -111,9 +110,8 @@ public:
   /**
    * This method schedules the timer to fire after a given delay (in tick) from now.
    * @param[in]  aInterval The delay in tick
-   * @param[in]  aRepeat   Use autoreload (true) or not (false)
    */
-  void Start( Time aInterval, bool aRepeat = false );
+  void Start( Time aInterval );
   
   
     
@@ -193,7 +191,6 @@ protected:
   Time mStartTime;
   Callback* mCallback;
   Timer *mNext;
-  bool mRepeat;
 };
 
   

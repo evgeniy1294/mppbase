@@ -17,12 +17,6 @@ void TimerScheduler::ProcessTimers(  )
     {
       Remove( *timer );
       timer->Alarm();
-
-      if ( timer->mRepeat )
-      {
-        timer->mStartTime = now;
-        Add( *timer );
-      }
     }
   }
 
@@ -35,8 +29,6 @@ void TimerScheduler::ProcessTimers(  )
 void TimerScheduler::Add( Timer& aTimer )
 {
   Timer *prev = nullptr;
-  Time now( mTimeSource() );
-
   Remove( aTimer );
 
   for ( Timer* cur = mTimerList.GetHead();  cur;  prev = cur, cur = cur->GetNext() )
@@ -82,11 +74,10 @@ exit:
 
 
 
-void Timer::Start( Time aInterval, bool aRepeat )
+void Timer::Start( Time aInterval )
 {
   mStartTime = mTimerScheduler->Now();
   mInterval  = aInterval;
-  mRepeat    = aRepeat;
   
   mTimerScheduler->Add( *this );
 }

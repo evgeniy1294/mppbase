@@ -7,15 +7,18 @@
 
 #include <cstdint>
 #include <optional>
+#include <utility>
+#include <type_traits>
 #include <mpp/error.hpp>
 
 namespace mpp {
 
 template <typename T> class RingBuffer {
 public:
-  using value_type = T;
+  using value_type = std::decay_t<T>;
+  static_assert( std::is_same_v< T, value_type >);
 
-  RingBuffer( T* aBuffer, const std::size_t aSize )
+  RingBuffer( value_type* aBuffer, const std::size_t aSize )
     : mBuffer(aBuffer)
     , mCapacity(aSize)
     , mHead(aBuffer)
@@ -29,14 +32,26 @@ public:
   bool IsFull() { return mFull; }
   std::size_t Capacity() { return mCapacity; }
   std::size_t Size();
-  template <typename dataT> void Push( dataT&& data );
-  template <typename dataT> mppError TryPush( dataT&& data );
-  std::optional<T> Pop();
+  template < typename K > void Push( K&& data );
+  template < typename K > mppError TryPush( K&& data );
+  std::optional<value_type> Pop();
 
+private:
+  inline void Assign( const value_type& value )
+    requires std::is_copy_assignable_v<value_type>
+  {
+    *mHead = value;
+  }
+
+  inline void Assign( value_type&& value )
+    requires std::is_move_assignable_v<value_type>
+  {
+    *mHead = std::move(value);
+  }
 
 private:
   const std::size_t mCapacity;
-  T *mBuffer, *mHead, *mTail;
+  value_type *mBuffer, *mHead, *mTail;
   bool mFull;
 };
 
@@ -66,17 +81,9 @@ std::size_t RingBuffer<T>::Size()
 
 
 template< typename T >
-template< typename dataT >
-void RingBuffer<T>::Push( dataT&& data ) {
-  if constexpr ( std::is_move_assignable_v<T>) {
-    *mHead = std::forward<dataT>(data);
-  }
-  else {
-    static_assert ( std::is_copy_assignable_v<T> );
-    static_assert ( std::is_copy_assignable_v<std::decay_t<dataT>> );
-    *mHead = data;
-  }
-
+template< typename K >
+void RingBuffer<T>::Push( K&& data ) {
+  Assign( std::forward<K>(data) );
 
   if ( mFull ) {
     if ( ++mTail == ( mBuffer + mCapacity ) )
@@ -96,11 +103,11 @@ void RingBuffer<T>::Push( dataT&& data ) {
 
 
 template< typename T >
-template< typename dataT >
-mppError RingBuffer<T>::TryPush( dataT&& data ) {
+template< typename K >
+mppError RingBuffer<T>::TryPush( K&& data ) {
   Error err = kErrorFailed;
   if ( !mFull ) {
-    Push( std::forward<dataT>(data) );
+    Push( std::forward<K>(data) );
     err = kErrorNone;
   }
 
@@ -111,7 +118,7 @@ mppError RingBuffer<T>::TryPush( dataT&& data ) {
 
 
 template< typename T >
-std::optional<T> RingBuffer<T>::Pop() {
+auto RingBuffer<T>::Pop() -> std::optional<value_type> {
   if ( IsEmpty() )
     return std::nullopt;
   else {

@@ -20,4 +20,4 @@ add_executable(${TARGET} main.cpp)
 target_sources(${TARGET} PRIVATE ${SOURCE_LIST})
 target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../../include)
 target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
-
+target_compile_features(${TARGET} PRIVATE cxx_std_20)

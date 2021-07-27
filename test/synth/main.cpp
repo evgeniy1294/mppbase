@@ -6,6 +6,7 @@
 #include <mpp/timer.hpp>
 #include <mpp/ring_buffer.hpp>
 #include <mpp/error.hpp>
+#include <mpp/crc_logic.hpp>
 
 static const char* sPrefix = "[MAIN]";
 
@@ -22,7 +23,7 @@ uint32_t GetSystemTickMs();
 #endif
 
 
-/*
+
 void TimerHandler( mpp::Timer &aTimer ) {
   aTimer.Start(1000);
   mppLogInfo( sPrefix, "%s", "FIRST!!!");
@@ -37,14 +38,14 @@ void TimerSecondHandler( mpp::Timer &aTimer ) {
 
   return;
 }
-*/
+
 
 static std::array<std::uint8_t, 10> array;
 
 
 int main()
 {
-  /*
+/*
   static mpp::TimerScheduler mTimeScheduler(GetSystemTickMs);
   static mpp::Timer mTimer( mTimeScheduler, TimerHandler );
   static mpp::Timer mTimerSecond( mTimeScheduler, TimerSecondHandler );
@@ -55,7 +56,7 @@ int main()
     mTimeScheduler.ProcessTimers();
     usleep(100);
   }
-  */
+*/
 
   mpp::RingBuffer<decltype(array)::value_type> mRing( array.data(), array.size() );
   mRing.Push(0);

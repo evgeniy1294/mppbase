@@ -15,6 +15,7 @@
 #include <array>
 #include <type_traits>
 #include <limits>
+#include <mpp/utils.hpp>
 
 
 
@@ -46,7 +47,7 @@ namespace mpp::crc {
     public:
       constexpr Logic() noexcept(true)
       {
-        constexpr result_type kRefPoly = mpp::utils::Reflect<result_type, kWidth>(Model::kPoly);
+        constexpr result_type kRefPoly = mpp::Reflect<result_type, kWidth>(Model::kPoly);
         constexpr result_type mask = (kRefIn) ? static_cast<result_type>(1u) : 
                                                 static_cast<result_type>(1u) << ( kWidth - 1u );
         
@@ -83,12 +84,12 @@ namespace mpp::crc {
         if constexpr (kRefIn)
         {  
           if constexpr (!kRefOut)
-            crc = mpp::utils::Reflect<result_type, kWidth>(crc);
+            crc = mpp::Reflect<result_type, kWidth>(crc);
         }
         else
         {
           if constexpr (kRefOut)
-            crc = mpp::utils::Reflect<result_type, kWidth>(crc);   
+            crc = mpp::Reflect<result_type, kWidth>(crc);
         }
         
         result_type tmp = crc;

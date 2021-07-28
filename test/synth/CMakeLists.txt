@@ -8,10 +8,10 @@ project(${TARGET} VERSION ${${TARGET}_VERSION} LANGUAGES CXX C)
 
 # ------------ [ sources ] ------------
 set(SOURCE_LIST
-     ${CMAKE_CURRENT_LIST_DIR}/../../src/common/logging.cpp
-     ${CMAKE_CURRENT_LIST_DIR}/../../src/common/error.cpp
-     ${CMAKE_CURRENT_LIST_DIR}/../../src/common/string.cpp
-     ${CMAKE_CURRENT_LIST_DIR}/../../src/common/timer.cpp
+     ${CMAKE_CURRENT_LIST_DIR}/../../src/logging.cpp
+     ${CMAKE_CURRENT_LIST_DIR}/../../src/error.cpp
+     ${CMAKE_CURRENT_LIST_DIR}/../../src/string.cpp
+     ${CMAKE_CURRENT_LIST_DIR}/../../src/timer.cpp
      ${CMAKE_CURRENT_LIST_DIR}/../../platform/synth/logging.cpp
      ${CMAKE_CURRENT_LIST_DIR}/../../platform/synth/time.cpp
    )

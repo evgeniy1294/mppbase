@@ -85,24 +85,27 @@ public:
   /**
    * This type defines a function reference which is invoked when the timer expires.
    *
-   * @param[in]  aTimer    A reference to the expired timer instance.
+   * @param[in]  aTimer  A reference to the expired timer instance.
+   * @param[in]  aArg    A pointer to user arg
    *
    */
-  typedef void (Callback)(Timer &aTimer);
+  typedef void (Callback)(Timer &aTimer, void* aUserArg);
   
   /**
    * This constructor creates a timer instance.
    *
    * @param[in]  aTimeScheduler   A reference to the TimeScheduler instance.
    * @param[in]  aHandler         A pointer to a function that is called when the timer expires.
+   * @param[in]  aUserArg         A pointer to user arg
    *
    */
-  Timer(TimerScheduler &aTimeScheduler, Callback aCallback )
+  Timer(TimerScheduler &aTimeScheduler, Callback aCallback, void* aUserArg = nullptr )
         : mTimerScheduler(&aTimeScheduler)
         , mCallback(aCallback)
         , mInterval()
         , mStartTime()
         , mNext(this)
+        , mUserArg(aUserArg)
   {
   }
     
@@ -184,13 +187,14 @@ protected:
    */
   bool DoesAlarmBefore( Timer &aSecondTimer ) /* const */;
 
-  void Alarm() { mCallback(*this); }
+  void Alarm() { mCallback(*this, mUserArg); }
 
   TimerScheduler *mTimerScheduler;
   Time mInterval;
   Time mStartTime;
   Callback* mCallback;
   Timer *mNext;
+  void* mUserArg;
 };
 
   

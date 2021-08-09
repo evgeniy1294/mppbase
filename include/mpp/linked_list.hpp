@@ -1,6 +1,10 @@
 #pragma once
+#include <type_traits>
+#include <initializer_list>
 #include <mpp/error.hpp>
 
+#include <iostream>
+#include <cstring>
 namespace mpp {
 
 /**
@@ -78,17 +82,75 @@ public:
   * @note Taked from OpenThread
   * 
   */
+
 template <typename Type> class LinkedList
 {
 public:
+    using value_type = std::decay_t<Type>;
+    static_assert( std::is_same_v< Type, value_type > );
+
     /**
      * This constructor initializes the linked list.
      *
      */
     LinkedList(void)
-        : mHead(nullptr)
+        : mHead(nullptr) { }
+
+
+    /**
+     * Copy-constructor for linked list.
+     *
+     */
+    LinkedList(const LinkedList<Type>& aLinkedList)
+        : mHead(aLinkedList.mHead) { }
+
+
+    /**
+     * Move-constructor for linked list.
+     *
+     */
+    LinkedList(LinkedList<Type>&& aLinkedList)
+        : mHead(aLinkedList.mHead)
     {
+      aLinkedList.mHead = nullptr;
     }
+
+/*
+    LinkedList( std::initializer_list<Type> aList )
+    {
+      mHead = nullptr;
+
+      for ( auto iter: aList )
+      {
+        iter.SetNext(mHead);
+        mHead = &iter;
+      }
+    }
+*/
+
+    /**
+     * Move assignment operator for linked list.
+     *
+     */
+    LinkedList<Type>& operator=(const LinkedList<Type>& aLinkedList)
+    {
+      mHead = aLinkedList.mHead;
+      return *this;
+    }
+
+
+    /**
+     * Copy assignment operator for linked list.
+     *
+     */
+    LinkedList<Type>& operator=(LinkedList<Type>&& aLinkedList)
+    {
+      mHead = aLinkedList.mHead;
+      aLinkedList.mHead = nullptr;
+
+      return *this;
+    }
+
 
     /**
      * This method returns the entry at the head of the linked list

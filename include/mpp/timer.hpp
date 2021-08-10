@@ -136,14 +136,12 @@ public:
   
   /**
    * This method returns the remain time of the timer.
-   *
    * @returns The remain time.
-   *
    */
   Time GetRemainTime();
   
-  
-  
+
+
   /**
    * This method returns setted the time interval
    *

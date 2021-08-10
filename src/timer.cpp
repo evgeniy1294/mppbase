@@ -117,5 +117,3 @@ bool Timer::DoesAlarmBefore( Timer &aSecondTimer )
 }
 
 
-
-

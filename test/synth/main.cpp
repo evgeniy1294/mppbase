@@ -7,6 +7,7 @@
 #include <mpp/ring_buffer.hpp>
 #include <mpp/error.hpp>
 #include <mpp/crc_logic.hpp>
+#include <mpp/utils.hpp>
 
 static const char* sPrefix = "[MAIN]";
 
@@ -58,124 +59,8 @@ int main()
   }
 */
 
-  mpp::RingBuffer<decltype(array)::value_type> mRing( array.data(), array.size() );
-  mRing.Push(0);
-  mRing.Push(1);
-  mRing.Push(2);
-  mRing.Push(3);
-  mRing.Push(4);
-  mRing.Push(5);
-  mRing.Push(6);
-  mRing.Push(7);
-  mRing.Push(8);
-  mRing.Push(9);
-
-  if ( mRing.TryPush(10) != mpp::kErrorNone ) {
-    std::cout << "Push failed, buffer is full" << std::endl;
-  }
-
-  mRing.Push(0x0A);
-  std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-
-  auto tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  if ( mRing.TryPush(11) != mpp::kErrorNone ) {
-    std::cout << "Push failed, buffer is full" << std::endl;
-  }
-  else
-  {
-    std::cout << "Push success" << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
-  tmp = mRing.Pop();
-  if (tmp)
-  {
-    std::cout << (std::uint32_t)tmp.value() << " ";
-    std::cout << "Buffer size is: " << (std::uint32_t)mRing.Size() << std::endl;
-  }
-
+  std::cout << mpp::IsFussyEqual(1.32f, 1.35f, 0.04f) << std::endl;
+  std::cout << mpp::IsFussyNull(-0.01f, 0.001) << std::endl;
 
   return 0; 
 }

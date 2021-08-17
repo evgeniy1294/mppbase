@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <cmath>
+#include <limits>
 
 namespace mpp {
 
@@ -27,6 +29,28 @@ namespace mpp {
   }
 
 
+  inline
+  bool IsFuzzyEqual( float aFirst, float aSecond, float aEpsilon )
+  {
+    return (std::fabs(aFirst - aSecond) <= aEpsilon);
+  }
 
+  inline
+  bool IsFuzzyEqual( float aFirst, float aSecond )
+  {
+    static constexpr auto epsilon = 1.0e-05f;
+
+    if (std::fabs(aFirst - aSecond) <= epsilon)
+      return true;
+
+    return std::fabs(aFirst - aSecond) <= epsilon * std::fmax(std::fabs(aFirst), std::fabs(aSecond));
+  }
+
+
+  inline
+  bool IsFuzzyNull( float aValue, float aEpsilon = 1.0e-05f )
+  {
+    return (std::fabs(aValue) < aEpsilon);
+  }
 }  // namespace mpp 
 

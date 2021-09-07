@@ -8,6 +8,8 @@
 #include <mpp/error.hpp>
 #include <mpp/crc_logic.hpp>
 #include <mpp/utils.hpp>
+#include <mpp/rtc_time.hpp>
+#include <mpp/systick.hpp>
 
 static const char* sPrefix = "[MAIN]";
 

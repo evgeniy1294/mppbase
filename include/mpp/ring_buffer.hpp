@@ -9,9 +9,87 @@
 #include <optional>
 #include <utility>
 #include <type_traits>
+#include <iterator>
+#include <cstddef>
+
 #include <mpp/error.hpp>
 
 namespace mpp {
+
+template< class T >
+class RingIterator {
+  static_assert(std::is_same_v<T, std::decay_t<T>>);
+
+public:
+  using iterator_category = std::bidirectional_iterator_tag;
+  using difference_type   = std::ptrdiff_t;
+  using value_type        = typename T::value_type;
+  using pointer           = value_type*;
+  using reference         = value_type&;
+  using parent            = T;
+
+  RingIterator(parent* aParent, pointer aPtr)
+    : mParent(aParent)
+    , mPtr(aPtr) {}
+
+  RingIterator(parent& aParent, pointer aPtr)
+    : mParent(&aParent)
+    , mPtr(aPtr) {}
+
+  bool IsHead() { return mPtr == mParent->mHead; }
+  bool IsTail() { return mPtr == mParent->mTail; }
+
+  reference operator*() const { return *mPtr; }
+  pointer operator->() { return mPtr; }
+
+  // Prefix decrement
+  RingIterator& operator--() { // &?
+    auto tmp = mPtr - 1;
+
+    if (mParent->mHead < mParent->mTail) {
+      tmp = (tmp < mParent->mBuffer) ? mParent->mEnd - 1 : tmp;
+    }
+    mPtr = (tmp < mParent->mTail) ? mParent->mTail : tmp;
+
+    return *this;
+  }
+
+  // Prefix increment
+  RingIterator& operator++() {
+    auto tmp = mPtr + 1;
+
+    if (mParent->mHead < mParent->mTail) {
+      tmp = (tmp >= mParent->mEnd) ? mParent->mBuffer : tmp;
+    }
+    mPtr = (tmp == mParent->mHead) ? mPtr : tmp;
+
+    return *this;
+  }
+
+  // Postfix increment
+  RingIterator operator++(int) {
+    RingIterator tmp = *this; ++(*this); return tmp;
+  }
+
+  // Postfix decrement
+  RingIterator operator--(int) {
+    RingIterator tmp = *this; --(*this); return tmp;
+  }
+
+  friend bool operator== (const RingIterator& aLsh, const RingIterator& aRsh) {
+    return aLsh.mPtr == aRsh.mPtr;
+  };
+
+  friend bool operator!= (const RingIterator& aLsh, const RingIterator& aRsh) {
+    return aLsh.mPtr != aRsh.mPtr;
+  };
+
+private:
+  parent* mParent;
+  pointer mPtr;
+};
+
+
 
 template <typename T> class RingBuffer {
 public:
@@ -35,7 +113,8 @@ public:
   template < typename K > void Push( K&& data );
   template < typename K > mppError TryPush( K&& data );
   std::optional<value_type> Pop();
-
+  // RingIterator Begin()
+  // RingIterator End()
 private:
   inline void Assign( const value_type& value )
     requires std::is_copy_assignable_v<value_type>
@@ -133,6 +212,7 @@ auto RingBuffer<T>::Pop() -> std::optional<value_type> {
     return ret;
   }
 }
+
 
 
 

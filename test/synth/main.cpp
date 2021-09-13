@@ -61,8 +61,8 @@ int main()
   }
 */
 
-  std::cout << mpp::IsFussyEqual(1.32f, 1.35f, 0.04f) << std::endl;
-  std::cout << mpp::IsFussyNull(-0.01f, 0.001) << std::endl;
+  //std::cout << mpp::IsFussyEqual(1.32f, 1.35f, 0.04f) << std::endl;
+  //std::cout << mpp::IsFussyNull(-0.01f, 0.001) << std::endl;
 
   return 0; 
 }

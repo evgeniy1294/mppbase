@@ -4,12 +4,12 @@
 #include <unistd.h>
 #include <mpp/logging.h>
 #include <mpp/timer.hpp>
-#include <mpp/ring_buffer.hpp>
 #include <mpp/error.hpp>
 #include <mpp/crc_logic.hpp>
 #include <mpp/utils.hpp>
 #include <mpp/rtc_time.hpp>
 #include <mpp/systick.hpp>
+#include <mpp/storage.hpp>
 
 static const char* sPrefix = "[MAIN]";
 
@@ -26,8 +26,7 @@ uint32_t GetSystemTickMs();
 #endif
 
 
-
-void TimerHandler( mpp::Timer &aTimer ) {
+void TimerHandler( mpp::Timer &aTimer, void* aUserArg ) {
   aTimer.Start(1000);
   mppLogInfo( sPrefix, "%s", "FIRST!!!");
 
@@ -35,7 +34,7 @@ void TimerHandler( mpp::Timer &aTimer ) {
 }
 
 
-void TimerSecondHandler( mpp::Timer &aTimer ) {
+void TimerSecondHandler( mpp::Timer &aTimer, void* aUserArg) {
   aTimer.Start(100);
   mppLogInfo( sPrefix, "%s", "SECOND!!!");
 
@@ -48,7 +47,6 @@ static std::array<std::uint8_t, 10> array;
 
 int main()
 {
-/*
   static mpp::TimerScheduler mTimeScheduler(GetSystemTickMs);
   static mpp::Timer mTimer( mTimeScheduler, TimerHandler );
   static mpp::Timer mTimerSecond( mTimeScheduler, TimerSecondHandler );
@@ -59,7 +57,7 @@ int main()
     mTimeScheduler.ProcessTimers();
     usleep(100);
   }
-*/
+
 
   //std::cout << mpp::IsFussyEqual(1.32f, 1.35f, 0.04f) << std::endl;
   //std::cout << mpp::IsFussyNull(-0.01f, 0.001) << std::endl;
